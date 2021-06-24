@@ -4,13 +4,13 @@ class DecissionTreeNode:
     __slots__ = ["left", "right", "chance", "feature", "combination"]
 
     def __init__(self):
-        self.left: DecissionTreeNode = None 
+        self.left: DecissionTreeNode = None
         self.right: DecissionTreeNode = None
         self.chance: float = None
 
         self.feature: str = None
         self.combination: Any = None
-  
+
     def _display_aux(self):
         '''
         Returns list of strings, width, height, and horizontal coordinate of the root.\r\n
