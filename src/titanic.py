@@ -1,5 +1,6 @@
 from DecisionTreeClassifier import *
 import pandas as pd
+import json
 
 titanic = pd.read_csv("data/titanic.csv")
 
@@ -16,8 +17,17 @@ tree_builder.buildDT()
 f = open("output.txt", "w")
 f.write(str(tree_builder))
 f.close()
+# Tree als JSON speichern.
+json_file_name = "output.json"
+f = open(json_file_name, "w")
+f.write(repr(tree_builder.tree))
+f.close()
 
-# Predict neue Datensätze.
+
+# Von JSON parsenen.
+json_tree = DecissionTreeNode.fromJson(open(json_file_name).read())
+
+# Predict neue Datensätze, geparst von JSON.
 rose = pd.Series({'Pclass' : "1st",
         'Sex' : "female",
         'Age' : 19})
@@ -26,5 +36,5 @@ jack = pd.Series({'Pclass' : "3rd",
         'Sex' : "male",
         'Age' : 21})
 
-print(f"Rose: {tree_builder.tree.predictSample(rose)*100:.2f}%", )
-print(f"Jack: {tree_builder.tree.predictSample(jack)*100:.2f}%", )
+print(f"Rose: {json_tree.predictSample(rose)*100:.2f}%", )
+print(f"Jack: {json_tree.predictSample(jack)*100:.2f}%", )

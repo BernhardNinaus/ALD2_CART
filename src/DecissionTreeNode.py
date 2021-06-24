@@ -1,4 +1,5 @@
 import pandas as pd
+import json as jsn
 from typing import *
 
 class DecissionTreeNode:
@@ -25,6 +26,23 @@ class DecissionTreeNode:
     
     def _is_numeric(self):
         return isinstance(self.combination, int) or isinstance(self.combination, float)
+        
+    @staticmethod
+    def fromJson(json) -> "DecissionTreeNode":
+        """ Recursively (re)construct TreeNode-based tree from dictionary. """
+        if not json: return None
+        if isinstance(json, str): json = jsn.loads(json)
+
+        node = DecissionTreeNode()
+        node.left = DecissionTreeNode.fromJson(json['left'])
+        node.right = DecissionTreeNode.fromJson(json['right'])
+        node.chance = json["chance"]
+        node.feature = json["feature"]
+        node.combination = json["combination"]
+        return node
+        
+    def __repr__(self) -> str:
+        return jsn.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
 
     def _display_aux(self):
         '''
