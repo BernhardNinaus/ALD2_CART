@@ -19,8 +19,8 @@ class DecisionTreeClassifier:
 
     def _build_node(self,
             node: DecissionTreeNode,
-            target_values: pd.DataFrame, 
-            feature_values: pd.DataFrame, 
+            target_values: pd.DataFrame,
+            feature_values: pd.DataFrame,
             depht: int = 0):
         '''Es wird der übergebene Node mit den übergegebenen Daten berechnet.'''
         # Hole bestes Feature und Combination für diese Daten.
@@ -134,7 +134,7 @@ class DecisionTreeClassifier:
                 # Es wäre alles im linken oder rechten Bucket.
                 continue
 
-            # Es werden Werte hinzugefügt, nur für Funktionsaufruf, 
+            # Es werden Werte hinzugefügt, nur für Funktionsaufruf,
             # wenn is in einem Bucket eine 100% Wahrscheinlickeit gibt.
             if len(bucket_left) == 1:
                 bucket_left.append(0)

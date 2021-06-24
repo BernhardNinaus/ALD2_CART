@@ -4,7 +4,7 @@ from typing import *
 
 class DecissionTreeNode:
     __slots__ = ["left", "right", "chance", "feature", "combination"]
-    
+
     def __init__(self):
         self.left: DecissionTreeNode = None
         self.right: DecissionTreeNode = None
@@ -24,10 +24,10 @@ class DecissionTreeNode:
             return self.left.predictSample(data)
         else:
             return self.right.predictSample(data)
-    
+
     def _is_numeric(self):
         return isinstance(self.combination, int) or isinstance(self.combination, float)
-        
+
     @staticmethod
     def fromJson(json) -> "DecissionTreeNode":
         """ Recursively (re)construct TreeNode-based tree from dictionary. """
@@ -41,7 +41,7 @@ class DecissionTreeNode:
         node.feature = json["feature"]
         node.combination = json["combination"]
         return node
-        
+
     def __repr__(self) -> str:
         return jsn.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
 
