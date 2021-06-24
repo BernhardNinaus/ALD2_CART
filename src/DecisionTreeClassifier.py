@@ -16,7 +16,6 @@ class DecisionTreeClassifier:
         '''Builds the decision tree recursively'''
         self._build_node(self.tree, self._target, self._features)
 
-
     def _build_node(self,
             node: DecissionTreeNode,
             target_values: pd.DataFrame,

@@ -13,6 +13,7 @@ features.Pclass = features.Pclass.map({1: "1st", 2: "2nd", 3: "3rd"})
 tree_builder = DecisionTreeClassifier(target, features, max_depht=3)
 tree_builder.buildDT()
 
+
 # Tree als Text-Tree ausgeben
 f = open("output.txt", "w")
 f.write(str(tree_builder))
