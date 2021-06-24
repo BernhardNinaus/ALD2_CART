@@ -17,7 +17,8 @@ class DecissionTreeNode:
         if not self.feature:
             return self.chance
 
-        test = (data[self.feature] <= self.combination) if self._is_numeric() else data[self.feature] == self.combination
+        test = (data[self.feature] <= self.combination) if self._is_numeric() \
+            else data[self.feature] == self.combination
 
         if test:
             return self.left.predictSample(data)

@@ -17,10 +17,14 @@ class DecisionTreeClassifier:
         self._build_node(self.tree, self._target, self._features)
 
 
-    def _build_node(self, node: DecissionTreeNode, target_values: pd.DataFrame, feature_values: pd.DataFrame, depht: int = 0):
+    def _build_node(self,
+            node: DecissionTreeNode,
+            target_values: pd.DataFrame, 
+            feature_values: pd.DataFrame, 
+            depht: int = 0):
         '''Es wird der übergebene Node mit den übergegebenen Daten berechnet.'''
         # Hole bestes Feature und Combination für diese Daten.
-        gini_impurity, feature_name, combination  = DecisionTreeClassifier._evaluate_node(target_values, feature_values)
+        gini_impurity, feature_name, combination = DecisionTreeClassifier._evaluate_node(target_values, feature_values)
 
         # Es konnte keine Decission erzeugt werden, Daten vielleicht schon 100% pure.
         if gini_impurity == None:
@@ -65,16 +69,19 @@ class DecisionTreeClassifier:
             # Wenn beim neuen Node kein Feature, und somit auch keine Decission, gefunden wurde,
             # dann nur noch Wahrscheinlichkeit berechnen.
             if node.left.feature == None:
-                node.left.chance = target_values[target_values.eq(1) & data_left].count() / target_values[data_left].count()
+                node.left.chance = target_values[target_values.eq(1) & data_left].count() \
+                                        / target_values[data_left].count()
 
             if node.right.feature == None:
-                node.right.chance = target_values[target_values.eq(1) & data_right].count() / target_values[data_right].count()
+                node.right.chance = target_values[target_values.eq(1) & data_right].count() \
+                                        / target_values[data_right].count()
 
     def __str__(self):
         return str(self.tree)
 
     @staticmethod
-    def _evaluate_node(target_values: pd.DataFrame, feature_values: pd.DataFrame) -> Tuple[float, str, Any]:
+    def _evaluate_node(target_values: pd.DataFrame, feature_values: pd.DataFrame) \
+        -> Tuple[float, str, Any]:
         '''
         Gibt beste gini_impurity, feature_name and combination als Tuple zurück.\r\n
         Wenn None, dann konnte keiner ermittelt werden.
@@ -101,12 +108,14 @@ class DecisionTreeClassifier:
         return gini_impurity, feature_name, combination
 
     @staticmethod
-    def _calculate_gini(feature_name: str, target_values: pd.DataFrame, feature_values: pd.DataFrame) -> Tuple[float, Any]:
+    def _calculate_gini(feature_name: str, target_values: pd.DataFrame, feature_values: pd.DataFrame) \
+        -> Tuple[float, Any]:
         '''Gini Berechnung, nur für das eine Feature'''
         gini_impurity = None
         combination = None
 
-        # Es werden zuerst die feautre Daten vorbereitet und festgestellt ob es ein numerisches Feature ist.
+        # Es werden zuerst die feautre Daten vorbereitet #
+        # und festgestellt ob es ein numerisches Feature ist.
         feature_data = feature_values[feature_name]
         is_numeric = feature_data.dtype != "O"
 
@@ -125,7 +134,8 @@ class DecisionTreeClassifier:
                 # Es wäre alles im linken oder rechten Bucket.
                 continue
 
-            # Es werden Werte hinzugefügt, nur für Funktionsaufruf, wenn is in einem Bucket eine 100% Wahrscheinlickeit gibt.
+            # Es werden Werte hinzugefügt, nur für Funktionsaufruf, 
+            # wenn is in einem Bucket eine 100% Wahrscheinlickeit gibt.
             if len(bucket_left) == 1:
                 bucket_left.append(0)
             if len(bucket_right) == 1:
@@ -142,7 +152,9 @@ class DecisionTreeClassifier:
 
     @staticmethod
     def _gini_impurity_total(a=0, b=0, c=0, d=0):
-        return ((a+b) * DecisionTreeClassifier._gini_impurity(a, b) + (c+d) * DecisionTreeClassifier._gini_impurity(c, d)) / (a + b + c + d)
+        return ((a+b) * DecisionTreeClassifier._gini_impurity(a, b) + \
+                (c+d) * DecisionTreeClassifier._gini_impurity(c, d)) \
+            / (a + b + c + d)
 
     @staticmethod
     def _gini_impurity(a=0, b=0):
