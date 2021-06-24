@@ -1,8 +1,9 @@
+import pandas as pd
 from typing import *
 
 class DecissionTreeNode:
     __slots__ = ["left", "right", "chance", "feature", "combination"]
-
+    
     def __init__(self):
         self.left: DecissionTreeNode = None
         self.right: DecissionTreeNode = None
@@ -10,6 +11,20 @@ class DecissionTreeNode:
 
         self.feature: str = None
         self.combination: Any = None
+
+    def predictSample(self, data: pd.Series):
+        if not self.feature:
+            return self.chance
+
+        test = (data[self.feature] <= self.combination) if self._is_numeric() else data[self.feature] == self.combination
+
+        if test:
+            return self.left.predictSample(data)
+        else:
+            return self.right.predictSample(data)
+    
+    def _is_numeric(self):
+        return isinstance(self.combination, int) or isinstance(self.combination, float)
 
     def _display_aux(self):
         '''
