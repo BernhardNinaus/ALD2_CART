@@ -3,8 +3,6 @@ import json as jsn
 from typing import *
 
 class DecissionTreeNode:
-    __slots__ = ["left", "right", "chance", "feature", "combination"]
-
     def __init__(self):
         self.left: DecissionTreeNode = None
         self.right: DecissionTreeNode = None

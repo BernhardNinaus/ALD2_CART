@@ -1,0 +1,91 @@
+{
+    "chance": 0.3855693348365276,
+    "combination": "female",
+    "feature": "Sex",
+    "left": {
+        "chance": 0.7420382165605095,
+        "combination": "3rd",
+        "feature": "Pclass",
+        "left": {
+            "chance": 0.5,
+            "combination": 38.0,
+            "feature": "Age",
+            "left": {
+                "chance": 0.5503875968992248,
+                "combination": null,
+                "feature": null,
+                "left": null,
+                "right": null
+            },
+            "right": {
+                "chance": 0.06666666666666667,
+                "combination": null,
+                "feature": null,
+                "left": null,
+                "right": null
+            }
+        },
+        "right": {
+            "chance": 0.9470588235294117,
+            "combination": 2.0,
+            "feature": "Age",
+            "left": {
+                "chance": 0.5,
+                "combination": null,
+                "feature": null,
+                "left": null,
+                "right": null
+            },
+            "right": {
+                "chance": 0.9523809523809523,
+                "combination": null,
+                "feature": null,
+                "left": null,
+                "right": null
+            }
+        }
+    },
+    "right": {
+        "chance": 0.19022687609075042,
+        "combination": 12.0,
+        "feature": "Age",
+        "left": {
+            "chance": 0.5609756097560976,
+            "combination": "3rd",
+            "feature": "Pclass",
+            "left": {
+                "chance": 0.3793103448275862,
+                "combination": null,
+                "feature": null,
+                "left": null,
+                "right": null
+            },
+            "right": {
+                "chance": 1.0,
+                "combination": null,
+                "feature": null,
+                "left": null,
+                "right": null
+            }
+        },
+        "right": {
+            "chance": 0.16165413533834586,
+            "combination": "1st",
+            "feature": "Pclass",
+            "left": {
+                "chance": 0.35294117647058826,
+                "combination": null,
+                "feature": null,
+                "left": null,
+                "right": null
+            },
+            "right": {
+                "chance": 0.10653753026634383,
+                "combination": null,
+                "feature": null,
+                "left": null,
+                "right": null
+            }
+        }
+    }
+}
