@@ -1,0 +1,46 @@
+
+set data
+set data.target_column
+set data.feature_columns
+
+evaluate_feature(current_data, feature_column):
+    set best_combination
+    
+    for each combination in current_data.get_combinations():
+        a, b = current_data.left(combination).count()
+        c, d = current_data.left(combination).count()
+
+        new_gini = calc_gini_avg(a, b, c, d)
+ 
+        new_gini < best_combination ?:
+            set best_combination
+
+    return best_combination
+
+evaluate_node(current_data):
+    set best_feature
+
+    for each column in feature_columns:
+        new_combination = evaluate_feature(current_data, column)
+
+        new_combination < best_feature ?:
+            set best_feature
+    
+    return best_feature
+
+create_tree(node, current_data):
+    abbruch_erreicht ?: return
+
+    best_feature = evaluate_node(current_data)
+
+    best_feature.gini < node.gini ?:
+        node.feature = best_feature.feature
+
+        node.left = new Node
+        create_tree(node.left, current_data.left(best_feature))
+
+        node.right = new Node
+        create_tree(node.left, current_data.right(best_feature))
+
+tree = new Node 
+create_tree(tree, data)
