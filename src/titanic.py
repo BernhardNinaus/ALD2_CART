@@ -1,6 +1,5 @@
 from DecisionTreeClassifier import *
 import pandas as pd
-import json
 
 titanic = pd.read_csv("data/titanic.csv")
 
@@ -37,5 +36,5 @@ jack = pd.Series({'Pclass' : "3rd",
         'Sex' : "male",
         'Age' : 21})
 
-print(f"Rose: {json_tree.predictSample(rose)*100:.2f}%", )
-print(f"Jack: {json_tree.predictSample(jack)*100:.2f}%", )
+print(f"Rose: {json_tree.predictSample(rose)*100:.2f}%")
+print(f"Jack: {json_tree.predictSample(jack)*100:.2f}%")

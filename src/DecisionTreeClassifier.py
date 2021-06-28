@@ -32,7 +32,6 @@ class DecisionTreeClassifier:
         # Es wird die eigene Impurity berechnet.
         node_gini_value = DecisionTreeClassifier._gini_impurity(*target_values.value_counts().tolist())
 
-
         # Es wurde was gefunden, es soll die Decission nur eingebaut werden, wenn Daten reiner werden.
         if gini_impurity < node_gini_value and depht < self.max_depht:
             node.feature = feature_name
@@ -51,18 +50,12 @@ class DecisionTreeClassifier:
 
             data_right = [not elem for elem in data_left]
 
-            # Daten für linken und rechten Bucket vorbereiten.
-            new_target_left = target_values[data_left]
-            new_features_left = feature_values[data_left]
-            new_target_right = target_values[data_right]
-            new_features_right = feature_values[data_right]
-
             # Es werden neue Nodes erstllt und mit den neuen Daten weiterberechnet.
             node.left = DecissionTreeNode()
-            self._build_node(node.left, new_target_left, new_features_left, depht + 1)
+            self._build_node(node.left, target_values[data_left], feature_values[data_left], depht + 1)
 
             node.right = DecissionTreeNode()
-            self._build_node(node.right, new_target_right, new_features_right, depht + 1)
+            self._build_node(node.right, target_values[data_right], feature_values[data_right], depht + 1)
 
             # todo eq 1 entfernen
             # Wenn beim neuen Node kein Feature, und somit auch keine Decission, gefunden wurde,
@@ -85,33 +78,28 @@ class DecisionTreeClassifier:
         Gibt beste gini_impurity, feature_name and combination als Tuple zurück.\r\n
         Wenn None, dann konnte keiner ermittelt werden.
         '''
-        gini_impurity = None
-        feature_name = None
-        combination = None
+        gini_impurity = feature_name = combination = None
 
         # Für jede Spalte wird die Gini Impurity berechnet und der beste Wert wird zurückgegeben.
         for current_feature_name in feature_values.columns:
             # Berechne beste gini impurity für akutelle Spalte.
-            new_gini_impurity, new_combination = DecisionTreeClassifier._calculate_gini(
+            new_gini_impurity, new_combination = DecisionTreeClassifier._evaluate_feature(
                                                     current_feature_name,
                                                     target_values,
                                                     feature_values)
 
             # Nur wenn neue Gini Impurity kleiner ist, dann soll diese verwendet werden.
             if not gini_impurity or (new_gini_impurity and new_gini_impurity < gini_impurity):
-                gini_impurity = new_gini_impurity
-                feature_name = current_feature_name
-                combination = new_combination
+                gini_impurity, feature_name, combination = new_gini_impurity, current_feature_name, new_combination
 
         # Gefunden werte zurückgeben, None wenn nichts gefunden wurde.
         return gini_impurity, feature_name, combination
 
     @staticmethod
-    def _calculate_gini(feature_name: str, target_values: pd.DataFrame, feature_values: pd.DataFrame) \
+    def _evaluate_feature(feature_name: str, target_values: pd.DataFrame, feature_values: pd.DataFrame) \
         -> Tuple[float, Any]:
         '''Gini Berechnung, nur für das eine Feature'''
-        gini_impurity = None
-        combination = None
+        gini_impurity = combination = None
 
         # Es werden zuerst die feautre Daten vorbereitet #
         # und festgestellt ob es ein numerisches Feature ist.
@@ -144,8 +132,7 @@ class DecisionTreeClassifier:
 
             # Wenn der neue Gini-Wert einer anderen Combination besser ist, dann wird diese ausgewählt.
             if not gini_impurity or new_gini_impurity < gini_impurity:
-                gini_impurity = new_gini_impurity
-                combination = item
+                gini_impurity, combination = new_gini_impurity, item
 
         return gini_impurity, combination
 
